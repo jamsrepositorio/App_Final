@@ -1,6 +1,7 @@
 package com.example.app_final
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUp() {
         hideToolbar()
+        hideNavigation()
+        binding.shopBottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_products -> {
+                    TODO("Se está trabajando")
+                }
+                R.id.navigation_favorites -> {
+                    TODO("Se está trabajando")
+                }
+                R.id.navigation_profile -> {
+                    TODO("Se está trabajando")
+                }
+                else -> {
+                    TODO("Se está trabajando")
+                }
+            }
+        }
     }
 
     /* private fun showProfile(email: String, provider: ProviderType)
@@ -119,5 +137,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideToolbar() {
         toolbar.hide()
+    }
+
+    fun visibleNavigation() {
+        binding.shopBottomNavigation.visibility = View.VISIBLE
+    }
+
+    fun hideNavigation() {
+        binding.shopBottomNavigation.visibility = View.GONE
     }
 }
