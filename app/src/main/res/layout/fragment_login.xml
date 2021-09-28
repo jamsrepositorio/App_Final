@@ -6,50 +6,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".login.LoginFragment">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/facebookButton"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:text="Facebook"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/googleButton"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginBottom="411dp"
+        android:text="Google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpButton"
+        app:layout_constraintVertical_bias="0.228" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signUpButton"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:text="Registrar"
+        app:backgroundTint="@color/purple_500"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/loginButton"
+        app:layout_constraintTop_toBottomOf="@id/textInputPassword" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginButton"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:text="Iniciar Sesión"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/signUpButton"
+        app:layout_constraintTop_toBottomOf="@id/textInputPassword" />
+
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
+        android:id="@+id/textInputEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:hint="Correo electronico"
+        android:hint="Correo Electrónico"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/emailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password"
+        android:id="@+id/textInputPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_margin="12dp"
         android:hint="Contraseña"
-        app:layout_constraintLeft_toLeftOf="@id/email"
-        app:layout_constraintRight_toRightOf="@id/email"
-        app:layout_constraintTop_toBottomOf="@id/email"
-        app:passwordToggleEnabled="true">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/passwordText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:backgroundTint="@color/white"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="0dp"
-        android:layout_height="68dp"
-        android:onClick="goToHome"
-        android:text="Iniciar sesion"
-        app:layout_constraintLeft_toLeftOf="@id/email"
-        app:layout_constraintRight_toRightOf="@id/email"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+
+
 
 
 
