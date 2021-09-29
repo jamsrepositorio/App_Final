@@ -10,12 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_Final">
         <activity
-            android:name=".TestActivity"
+            android:name=".buttomnavigationsample.BottomNavigationActivity"
             android:exported="true"
-            android:label="@string/title_activity_test" />
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="true" />
+            android:label="@string/title_activity_bottom_navigation" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
