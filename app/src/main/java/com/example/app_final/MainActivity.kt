@@ -5,7 +5,12 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.app_final.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -19,27 +24,26 @@ class MainActivity : AppCompatActivity() {
         /*notification()
         firebaseAnaylitics()*/
         setUp()
+
     }
 
     private fun setUp() {
         hideToolbar()
         hideNavigation()
-        binding.shopBottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_products -> {
-                    TODO("Se está trabajando")
-                }
-                R.id.navigation_favorites -> {
-                    TODO("Se está trabajando")
-                }
-                R.id.navigation_profile -> {
-                    TODO("Se está trabajando")
-                }
-                else -> {
-                    TODO("Se está trabajando")
-                }
-            }
-        }
+
+        val navView: BottomNavigationView = binding.shopBottomNavigation
+        val navController = findNavController(R.id.shop_host_fragment)
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.productsFragment,
+                R.id.favoritesFragment,
+                R.id.profileFragment
+            )
+        )
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     /* private fun showProfile(email: String, provider: ProviderType)
