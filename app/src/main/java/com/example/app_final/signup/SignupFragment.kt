@@ -10,13 +10,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.app_final.R
 import com.example.app_final.data.User
+import com.example.app_final.data.UserPreferences
 import com.example.app_final.databinding.FragmentSignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-
-enum class ProviderType {
-    BASIC
-}
 
 class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
@@ -32,6 +29,18 @@ class SignupFragment : Fragment() {
     ): View {
         _binding = FragmentSignupBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    private fun validateSession() {
+        if (UserPreferences.getCredential(requireContext()).isNotEmpty()) {
+            findNavController().navigate(
+                R.id.action_signupFragment_to_productFragment,
+                null,
+                NavOptions.Builder()
+                    .setPopUpTo(findNavController().graph.startDestination, true)
+                    .build()
+            )
+        }
     }
 
     private fun createNewAccount() {
@@ -53,6 +62,7 @@ class SignupFragment : Fragment() {
                         binding.progressContainer.visibility = View.GONE
                         binding.signUpContainer.visibility = View.VISIBLE
                         if (task.isSuccessful) {
+                            UserPreferences.saveCredential(requireContext(), email)
                             findNavController().navigate(
                                 R.id.action_signupFragment_to_productFragment,
                                 null,
@@ -85,6 +95,11 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpComponent()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        validateSession()
     }
 
     override fun onDestroy() {
