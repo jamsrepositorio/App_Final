@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.lang.ref.PhantomReference
 
+enum class ProviderType {
+    BASIC
+}
 class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
     private val binding: FragmentSignupBinding get() = _binding!!
@@ -42,6 +45,10 @@ class SignupFragment : Fragment() {
         dbReference = database.reference.child("User")
 
         return binding.root
+    }
+
+    private fun setUp(email: String, provider: String){
+        binding.emailText.setText(email)
     }
 
     fun register(view: View) {
