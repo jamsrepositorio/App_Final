@@ -4,12 +4,15 @@ import android.content.Context
 import com.example.app_final.R
 
 object UserPreferences {
+    const val EMAIL = "email"
+    const val EMPTY_STRING = ""
+
     fun saveCredential(context: Context, email: String) {
         val prefs = context.getSharedPreferences(
             context.getString(R.string.prefs_file),
             Context.MODE_PRIVATE
         ).edit()
-        prefs.putString("email", email)
+        prefs.putString(EMAIL, email)
         prefs.apply()
     }
 
@@ -18,6 +21,6 @@ object UserPreferences {
             context.getString(R.string.prefs_file),
             Context.MODE_PRIVATE
         )
-        return prefs.getString("email", "").toString()
+        return prefs.getString(EMAIL, EMPTY_STRING).toString()
     }
 }
