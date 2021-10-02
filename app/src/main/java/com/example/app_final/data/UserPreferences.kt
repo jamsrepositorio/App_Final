@@ -6,6 +6,7 @@ import com.example.app_final.R
 object UserPreferences {
     const val EMAIL = "email"
     const val EMPTY_STRING = ""
+    const val GOOGLE_CODE = 123
 
     fun saveCredential(context: Context, email: String) {
         val prefs = context.getSharedPreferences(

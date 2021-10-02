@@ -1,9 +1,11 @@
 package com.example.app_final.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -11,13 +13,22 @@ import androidx.navigation.fragment.findNavController
 import com.example.app_final.R
 import com.example.app_final.data.ProviderType
 import com.example.app_final.data.UserPreferences
+import com.example.app_final.data.UserPreferences.EMPTY_STRING
+import com.example.app_final.data.UserPreferences.GOOGLE_CODE
 import com.example.app_final.databinding.FragmentLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding: FragmentLoginBinding get() = _binding!!
+    lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +41,12 @@ class LoginFragment : Fragment() {
 
     // ahorita lo agregue
     private fun setUp() = with(binding) {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
+
         loginButton.setOnClickListener {
             if (binding.emailText.text.toString()
                     .isNotEmpty() && binding.editTextPassword.text.toString().isNotEmpty()
@@ -55,6 +72,53 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        googleButton.setOnClickListener {
+            signInGoogle()
+        }
+    }
+
+    private fun signInGoogle() {
+        val signInIntent: Intent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_CODE) {
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            googleResult(task)
+        }
+    }
+
+    private fun googleResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
+            if (account != null) {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                    account.email,
+                    EMPTY_STRING
+                ).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        UserPreferences.saveCredential(
+                            requireContext(),
+                            binding.emailText.text.toString()
+                        )
+                        findNavController().navigate(
+                            R.id.action_loginFragment_to_productsFragment,
+                            null,
+                            NavOptions.Builder()
+                                .setPopUpTo(findNavController().graph.startDestination, true)
+                                .build()
+                        )
+                    } else {
+                        showAlert()
+                    }
+                }
+            }
+        } catch (e: ApiException) {
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
